@@ -1,8 +1,10 @@
 from pico2d import load_image
+from tkinter import *
 
-from WaveDriver import monitor_width
+root = Tk()
 
-
+monitor_height = root.winfo_screenheight()
+monitor_width = root.winfo_screenwidth()
 class Stone:
     def __init__(self):
         self.image = load_image('stone.png')

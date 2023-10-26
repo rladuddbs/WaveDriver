@@ -1,7 +1,11 @@
 from pico2d import load_image
 
-from WaveDriver import monitor_width
+from tkinter import *
 
+root = Tk()
+
+monitor_height = root.winfo_screenheight()
+monitor_width = root.winfo_screenwidth()
 
 class Boat:
     def __init__(self):
