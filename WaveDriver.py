@@ -1,8 +1,9 @@
 from pico2d import *
 from tkinter import *
 
-from Boat import Boat
-from Stone import Stone
+import GameWorld
+from boat import Boat
+from stone import Stone
 
 root = Tk()
 
@@ -23,15 +24,25 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             close_canvas()
 
+def create_world():
+    global boat
+    global stone
 
-while True:
+    boat = Boat()
+    GameWorld.add_object(boat)
+
+    stone = Stone()
+    GameWorld.add_object(stone)
+
+def render_world():
     clear_canvas()
-    handle_events()
-    boat.update()
-    boat.draw()
-    stone.draw()
-    delay(0.1)
+    GameWorld.render()
     update_canvas()
 
+create_world()
 
-
+while True:
+    handle_events()
+    GameWorld.update()
+    render_world()
+    delay(0.1)
