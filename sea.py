@@ -5,12 +5,12 @@ root = Tk()
 
 monitor_height = root.winfo_screenheight()
 monitor_width = root.winfo_screenwidth()
-class Stone:
+class Sea:
     def __init__(self):
-        self.image = load_image('stone.png')
+        self.image = load_image('sea.png')
 
     def draw(self):
-        self.image.clip_draw(0, 0, 300, 300, monitor_width / 2, 800, 200, 200)
+        self.image.draw(monitor_width / 2, monitor_height / 2)
 
     def update(self):
         pass

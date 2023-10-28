@@ -2,8 +2,10 @@ from pico2d import *
 from tkinter import *
 
 import GameWorld
+
 from boat import Boat
 from stone import Stone
+from sea import Sea
 
 root = Tk()
 
@@ -27,12 +29,18 @@ def handle_events():
 def create_world():
     global boat
     global stone
+    global sea
+
+    sea = Sea()
+    GameWorld.add_object(sea)
 
     boat = Boat()
     GameWorld.add_object(boat)
 
     stone = Stone()
     GameWorld.add_object(stone)
+
+
 
 def render_world():
     clear_canvas()
