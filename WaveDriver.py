@@ -15,6 +15,7 @@ monitor_width = root.winfo_screenwidth()
 
 open_canvas(monitor_width, monitor_height)
 
+global mx, my
 
 def handle_events():
     global mx, my, running
