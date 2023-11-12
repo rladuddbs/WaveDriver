@@ -1,6 +1,5 @@
 from pico2d import *
 from tkinter import *
-
 import GameWorld
 
 from boat import Boat
@@ -15,18 +14,31 @@ monitor_width = root.winfo_screenwidth()
 
 open_canvas(monitor_width, monitor_height)
 
-global mx, my
+global mx, my, click
 
 def handle_events():
-    global mx, my, running
+    global mx, my, running, click, clicked
 
     events = get_events()
     for event in events:
         if event.type == SDL_MOUSEMOTION:
             mx, my = event.x, monitor_height - 1 - event.y
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            #boat.GetClickImpo(clicked, mx, my)
+
+        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             close_canvas()
             running = False
+
+        if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
+            boat.GetClickImpo(True, mx, my)
+            clicked = True
+            print("누름")
+
+        if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
+            boat.GetClickImpo(False, mx, my)
+            clicked = False
+            print("뗌")
+            frame = 0
 
 
 def create_world():
@@ -62,4 +74,3 @@ while running:
     handle_events()
     GameWorld.update()
     render_world()
-    delay(0.1)
