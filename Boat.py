@@ -47,6 +47,5 @@ class Boat:
             elif monitor_height / 3 > self.my > 0:
                 self.frame = 2
 
-        print(self.click)
 
 

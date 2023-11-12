@@ -1,5 +1,6 @@
 from pico2d import *
 from tkinter import *
+import time
 import GameWorld
 
 from boat import Boat
@@ -17,14 +18,13 @@ open_canvas(monitor_width, monitor_height)
 global mx, my, click
 
 def handle_events():
-    global mx, my, running, click, clicked
+    global mx, my, running, click, start_time, end_time
 
     events = get_events()
     for event in events:
         if event.type == SDL_MOUSEMOTION:
             mx, my = event.x, monitor_height - 1 - event.y
             boat.GetMousePos(mx, my)
-            print(1)
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             close_canvas()
@@ -32,17 +32,11 @@ def handle_events():
 
         if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(True, mx, my)
-            clicked = True
-            print("누름")
-            print(2)
 
 
         if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(False, mx, my)
-            clicked = False
-            print("뗌")
             frame = 0
-            print(3)
 
 
 
