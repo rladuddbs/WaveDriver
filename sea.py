@@ -22,10 +22,15 @@ FRAMES_PER_ACTION = 8
 class Sea:
     def __init__(self):
         self.image = load_image('sea.png')
-        self.img1_y = 0
+        self.img1_y, self.img2_y = monitor_height / 2, monitor_height
 
     def draw(self):
-        self.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2, monitor_height / 2 + self.img1_y)
-        self.img1_y -= 0.1
+        self.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2,  self.img1_y, monitor_width, monitor_height)
+        self.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2,  self.img2_y, monitor_width, monitor_height)
+        self.img1_y -= 1
+        self.img2_y -= 1
+        if self.img1_y <= 0: self.img1_y = monitor_height
+        if self.img2_y <= 0: self.img2_y = monitor_height
+
     def update(self):
         pass
