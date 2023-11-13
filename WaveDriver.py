@@ -22,7 +22,7 @@ y_speed = 0
 dir = 0
 add_angle = 0
 def handle_events():
-    global mx, my, running, click, x_speed, y_speed, dir, add_angle
+    global mx, my, running, click, x_speed, y_speed, dir, add_angle, mouse_frame
 
     events = get_events()
     for event in events:
@@ -43,11 +43,12 @@ def handle_events():
 
         if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(True, mx, my)
-
+            mouse_frame = 1
 
         if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(False, mx, my)
             frame = 0
+            mouse_frame = 0
 
 
 
@@ -56,7 +57,7 @@ def create_world():
     global stone
     global sea
     global cursor
-
+    global mouse_frame
     sea = Sea()
     GameWorld.add_object(sea)
 
@@ -67,12 +68,15 @@ def create_world():
     GameWorld.add_object(stone)
 
     cursor = load_image('paddle.png')
-
+    mouse_frame = 0
 
 def render_world():
     clear_canvas()
     GameWorld.render()
-    cursor.draw(mx, my)
+    if mx >= monitor_width / 2:
+        cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
+    else:
+        cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
     update_canvas()
 
 
@@ -102,6 +106,8 @@ while running:
         if x_speed * dir < 0:
             x_speed += 1 * dir
 
-    sea.GetVelocity(y_speed)
-    boat.GetBoatImpo(x_speed, add_angle)
 
+
+    sea.GetVelocity(y_speed)
+    stone.GetVelocity(y_speed)
+    boat.GetBoatImpo(x_speed, add_angle)

@@ -27,7 +27,7 @@ class Boat:
             self.image.clip_composite_draw(400 * self.frame, 0, 400, 400, -self.angle, 'h', self.boat_x, self.boat_y, 200, 200)
             self.dir = -1
 
-        self.boat_x += self.V / 10000
+        self.boat_x += self.V / 2000
 
     def GetClickImpo(self, click, mx, my):
         self.click = click
@@ -50,10 +50,13 @@ class Boat:
             elif monitor_height / 3 > self.my > 0:
                 self.frame = 2
 
-    def GetBoatImpo(self, V, angle):
+    def GetBoatImpo(self, V, add_angle):
         self.V = V
-        self.angle = angle
+        if -0.5 < self.angle < 0.5:
+            save_angle = self.angle
+            self.angle += add_angle / 500
+            if -0.5 > self.angle or self.angle > 0.5:
+                self.angle = save_angle
+
+        print(self.angle)
         pass
-
-
-
