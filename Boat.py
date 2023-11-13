@@ -32,7 +32,6 @@ class Boat:
         self.mx, self.my = mx, my
 
     def move(self):
-
         pass
 
 
