@@ -17,23 +17,24 @@ monitor_width = root.winfo_screenwidth()
 open_canvas(monitor_width, monitor_height)
 
 global mx, my, click
-V = 1
-accel = 10000
-click = False
+x_speed = 0
+y_speed = 0
+dir = 0
+angle = 0
 def handle_events():
-    global mx, my, running, click, V, accel
+    global mx, my, running, click, x_speed, y_speed, dir
 
     events = get_events()
     for event in events:
         if event.type == SDL_MOUSEMOTION:
             mx, my = event.x, monitor_height - 1 - event.y
             boat.GetMousePos(mx, my)
-
             if my - current_my != 0 and frame_time != 0 and my < current_my and boat.click:
-                if V > (my - current_my) / frame_time:
-                    V = (my - current_my) / frame_time
+                dir = boat.dir
 
-            print(V)
+                if y_speed > (my - current_my) / frame_time:
+                    y_speed = (my - current_my) / frame_time
+                    x_speed = (my - current_my) / (frame_time * 10) * boat.dir
 
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
@@ -91,11 +92,22 @@ while running:
     frame_time = time.time() - current_time
     current_time += frame_time
 
-    if V < -10000: V = -10000
-    if V < 0:
-        V += 20
+    if y_speed < 0: y_speed += 10
+    if y_speed < -10000: y_speed = -10000
 
-    sea.GetVelocity(V)
+    #if -1000 > x_speed or x_speed > 1000: x_speed = -1000 * dir
+    if dir == 1:
+        if x_speed < 0:
+            x_speed += 1 * dir
+    else:
+        if x_speed * dir < 0:
+            x_speed += 1 * dir
+
+
+    sea.GetVelocity(y_speed)
+    boat.GetVelocity(x_speed)
+
+    print(abs(x_speed * dir))
 
 
 
