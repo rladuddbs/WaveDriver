@@ -20,9 +20,9 @@ global mx, my, click
 x_speed = 0
 y_speed = 0
 dir = 0
-angle = 0
+add_angle = 0
 def handle_events():
-    global mx, my, running, click, x_speed, y_speed, dir, angle
+    global mx, my, running, click, x_speed, y_speed, dir, add_angle
 
     events = get_events()
     for event in events:
@@ -35,7 +35,7 @@ def handle_events():
                 if y_speed > (my - current_my) / frame_time:
                     y_speed = (my - current_my) / frame_time
                     x_speed = (my - current_my) / (frame_time * 10) * boat.dir
-                    angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
+                    add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             close_canvas()
@@ -102,14 +102,6 @@ while running:
         if x_speed * dir < 0:
             x_speed += 1 * dir
 
-
     sea.GetVelocity(y_speed)
-    boat.GetBoatImpo(x_speed, angle)
-
-    print(angle)
-
-
-
-
-
+    boat.GetBoatImpo(x_speed, add_angle)
 
