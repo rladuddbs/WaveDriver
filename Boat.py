@@ -58,5 +58,5 @@ class Boat:
             if -0.5 > self.angle or self.angle > 0.5:
                 self.angle = save_angle
 
-        print(self.angle)
+    def GetVelocity(self, V):
         pass

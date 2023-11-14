@@ -1,3 +1,5 @@
+import random
+
 from pico2d import *
 from tkinter import *
 import time
@@ -34,7 +36,7 @@ def handle_events():
 
                 if y_speed > (my - current_my) / frame_time:
                     y_speed = (my - current_my) / frame_time
-                    x_speed = (my - current_my) / (frame_time * 10) * boat.dir
+                    x_speed = -400 * boat.dir
                     add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
@@ -79,6 +81,17 @@ def render_world():
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
     update_canvas()
 
+def create_stone(lenth):
+    global create_lenth
+    global stone
+    if abs(sea.move_lenth) > lenth:
+        stone = Stone()
+        GameWorld.add_object(stone)
+        lenth = random.randint(200, 1600)
+        sea.move_lenth = 0
+        create_lenth = lenth
+    print(create_lenth)
+
 
 hide_cursor()
 create_world()
@@ -87,6 +100,8 @@ running = True
 frame_time = 0.0
 current_time = time.time()
 current_my, my = 0, 0
+
+create_lenth = random.randint(200, 2000)
 
 while running:
     handle_events()
@@ -107,7 +122,8 @@ while running:
             x_speed += 1 * dir
 
 
-
-    sea.GetVelocity(y_speed)
-    stone.GetVelocity(y_speed)
+    # sea.GetVelocity(y_speed)
+    # stone.GetVelocity(y_speed)
+    GameWorld.GetVelocity(y_speed)
     boat.GetBoatImpo(x_speed, add_angle)
+    create_stone(create_lenth)
