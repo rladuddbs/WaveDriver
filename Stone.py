@@ -1,6 +1,6 @@
 import random
 
-from pico2d import load_image
+from pico2d import load_image, draw_rectangle
 from tkinter import *
 import time
 
@@ -22,7 +22,8 @@ class Stone:
         self.start_time = time.time()
 
     def draw(self):
-        self.image.clip_draw(0, 0, 300, 300, self.x, self.y - 300, 200, 200)
+        self.image.clip_draw(0, 0, 300, 300, self.x, self.y, 200, 200)
+        draw_rectangle(*self.get_bb())
 
     def update(self):
         self.y += self.V / 10000
@@ -31,6 +32,5 @@ class Stone:
         self.V = V
         pass
 
-    def create(self):
-
-        pass
+    def get_bb(self):
+        return self.x - 35, self.y - 30, self.x + 35, self.y + 30
