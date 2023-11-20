@@ -28,6 +28,7 @@ class Boat:
             self.dir = -1
 
         self.boat_x += self.V / 2000
+        draw_rectangle(*self.get_bb())
 
     def GetClickImpo(self, click, mx, my):
         self.click = click
@@ -60,3 +61,6 @@ class Boat:
 
     def GetVelocity(self, V):
         pass
+
+    def get_bb(self):
+        return self.boat_x - 30, self.boat_y - 70, self.boat_x + 30, self.boat_y + 75
