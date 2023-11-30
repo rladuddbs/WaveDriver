@@ -1,0 +1,15 @@
+# 메인 파일 이름을 지정하세요.
+main_file = 'WaveDriver.py'
+
+# 데이타 파일들을 지정하세요.
+data_files = [
+    'boat_animation.png',
+    'paddle.png',
+    'sea.png',
+    'stone.png',
+]
+
+# 데이타가 들어있는 폴더들을 지정하세요.
+data_folders = [
+
+]

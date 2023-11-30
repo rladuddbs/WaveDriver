@@ -108,7 +108,9 @@ def update():
     create_stone(create_lenth)
     game_world.update()
 
+mx = 0
 def draw():
+    global mx
     clear_canvas()
     game_world.render()
     if mx >= monitor_width / 2:

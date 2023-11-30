@@ -2,6 +2,9 @@ from pico2d import *
 import play_mode as start_mode
 import game_framework
 from tkinter import Tk
+import title_mode as start_mode
+
+
 root = Tk()
 
 monitor_height = root.winfo_screenheight()
