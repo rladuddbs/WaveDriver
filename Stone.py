@@ -4,7 +4,7 @@ from pico2d import load_image, draw_rectangle
 from tkinter import *
 import time
 
-import GameWorld
+import game_world
 import sea
 
 root = Tk()

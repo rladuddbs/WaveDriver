@@ -1,47 +1,56 @@
 import random
+import time
+from tkinter import Tk
 
 from pico2d import *
-from tkinter import *
-import time
-import game_world
 import game_framework
-
+import game_world
 from boat import Boat
-from stone import Stone
 from sea import Sea
+from stone import Stone
 
 
+# Game object class here
 root = Tk()
 
 monitor_height = root.winfo_screenheight()
 monitor_width = root.winfo_screenwidth()
 
-open_canvas(monitor_width, monitor_height)
 
 global mx, my, click
 x_speed = 0
 y_speed = 0
 dir = 0
 add_angle = 0
+
+running = True
+
+frame_time = 0.0
+current_time = time.time()
+current_my, my = 0, 0
+
+create_lenth = random.randint(200, 2000)
+
+
 def handle_events():
-    global mx, my, running, click, x_speed, y_speed, dir, add_angle, mouse_frame
+    global mx, my, running, click, x_speed, y_speed, dir, add_angle, mouse_frame, current_my, frame_time
 
     events = get_events()
     for event in events:
         if event.type == SDL_MOUSEMOTION:
+            current_my = my
             mx, my = event.x, monitor_height - 1 - event.y
             boat.GetMousePos(mx, my)
+            print(boat.click)
             if my - current_my != 0 and frame_time != 0 and my < current_my and boat.click:
                 dir = boat.dir
-
                 if y_speed > (my - current_my) / frame_time:
                     y_speed = (my - current_my) / frame_time
                     x_speed = -400 * boat.dir
                     add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            close_canvas()
-            running = False
+            game_framework.quit()
 
         if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(True, mx, my)
@@ -52,14 +61,14 @@ def handle_events():
             frame = 0
             mouse_frame = 0
 
-
-
-def create_world():
+def init():
     global boat
     global stone
     global sea
     global cursor
     global mouse_frame
+    hide_cursor()
+
     sea = Sea()
     game_world.add_object(sea)
 
@@ -72,42 +81,14 @@ def create_world():
     cursor = load_image('paddle.png')
     mouse_frame = 0
 
-def render_world():
-    clear_canvas()
-    game_world.render()
-    if mx >= monitor_width / 2:
-        cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
-    else:
-        cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
-    update_canvas()
-
-def create_stone(lenth):
-    global create_lenth
-    global stone
-    if abs(sea.move_lenth) > lenth:
-        stone = Stone()
-        game_world.add_object(stone)
-        lenth = random.randint(200, 1600)
-        sea.move_lenth = 0
-        create_lenth = lenth
-    print(create_lenth)
+def finish():
+    game_world.clear()
+    pass
 
 
-hide_cursor()
-create_world()
-running = True
+def update():
+    global current_my, current_time, y_speed, x_speed, frame_time
 
-frame_time = 0.0
-current_time = time.time()
-current_my, my = 0, 0
-
-create_lenth = random.randint(200, 2000)
-
-while running:
-    handle_events()
-    current_my = my
-    game_world.update()
-    render_world()
 
     frame_time = time.time() - current_time
     current_time += frame_time
@@ -125,3 +106,30 @@ while running:
     game_world.GetVelocity(y_speed)
     boat.GetBoatImpo(x_speed, add_angle)
     create_stone(create_lenth)
+    game_world.update()
+
+def draw():
+    clear_canvas()
+    game_world.render()
+    if mx >= monitor_width / 2:
+        cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
+    else:
+        cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
+    update_canvas()
+
+def create_stone(lenth):
+    global create_lenth
+    global stone
+    if abs(sea.move_lenth) > lenth:
+        stone = Stone()
+        game_world.add_object(stone)
+        lenth = random.randint(200, 1600)
+        sea.move_lenth = 0
+        create_lenth = lenth
+
+def pause():
+    pass
+
+
+def resume():
+    pass
