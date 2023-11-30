@@ -1,4 +1,4 @@
-from pico2d import load_image
+from pico2d import load_image, load_music
 from tkinter import *
 
 root = Tk()
@@ -20,6 +20,9 @@ class Sea:
         self.img1_y, self.img2_y = monitor_height / 2, monitor_height
         self.V = 0
         self.move_lenth = 0
+
+
+
     def draw(self):
         self.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2,  self.img1_y, monitor_width, monitor_height)
         self.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2,  self.img2_y, monitor_width, monitor_height)
