@@ -15,7 +15,7 @@ monitor_height = root.winfo_screenheight()
 monitor_width = root.winfo_screenwidth()
 
 def init():
-    global sea, image, boat, boat_x, boat_y, spd, title_img, key_guide, alpha, apear
+    global sea, image, boat, boat_x, boat_y, spd, title_img, key_guide, alpha, apear, title_pos, title_acc, title_spd
     sea = Sea()
     game_world.add_object(sea)
 
@@ -26,8 +26,9 @@ def init():
     spd = 0.5
 
     title_img = load_image('title.png')
-
-
+    title_pos = monitor_height / 2 + 150
+    title_spd = -1
+    title_acc = 0.005
 
     key_guide = load_image('key_guide.png')
     alpha = 1
@@ -54,10 +55,13 @@ def handle_events():
 
 
 def update():
-    global boat_y, animation_start, spd, alpha, apear
+    global boat_y, animation_start, spd, alpha, apear, title_acc, title_pos, title_spd
     if animation_start:
         boat_y += spd
         spd -= 0.0004
+
+        title_pos += title_spd
+        title_spd += title_acc
     if boat_y >= 200:
         game_framework.change_mode(play_mode)
 
@@ -74,17 +78,20 @@ def update():
     alpha += apear
 
     key_guide.opacify(alpha)
+
+
+
     pass
 
 
 def draw():
-    global boat_x, boat_y, title_img, key_guide
+    global boat_x, boat_y, title_img, key_guide, title_pos
     clear_canvas()
     sea.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2, monitor_height / 2, monitor_width, monitor_height)
 
     boat.image.clip_draw(0, 0, 400, 400, boat_x, boat_y, 200, 200)
 
-    title_img.draw(monitor_width / 2, monitor_height / 2 + 150)
+    title_img.draw(monitor_width / 2, title_pos)
     key_guide.draw(monitor_width / 2, monitor_height / 2 - 250)
     update_canvas()
     print(boat_y)
