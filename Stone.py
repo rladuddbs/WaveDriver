@@ -27,10 +27,21 @@ class Stone:
 
     def update(self):
         self.y += self.V / 10000
+        self.delete()
         pass
     def GetVelocity(self, V):
         self.V = V
+        print(V)
         pass
 
     def get_bb(self):
         return self.x - 35, self.y - 30, self.x + 35, self.y + 30
+
+    def handle_collision(self, group, other):
+        if group == 'boat:stone':
+            game_world.remove_object(self)
+
+    def delete(self):
+        if self.y < -100:
+            game_world.remove_object(self)
+        pass

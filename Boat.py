@@ -19,6 +19,8 @@ class Boat:
         self.dir = 1
         self.V = 0
         self.angle = 0
+        self.Durability = 3
+
     def draw(self):
         if self.mx >= monitor_width / 2:
             self.image.clip_composite_draw(400 * self.frame, 0, 400, 400, -self.angle, ' ', self.boat_x, self.boat_y, 200, 200)
@@ -64,3 +66,7 @@ class Boat:
 
     def get_bb(self):
         return self.boat_x - 30, self.boat_y - 70, self.boat_x + 30, self.boat_y + 75
+
+    def handle_collision(self, group, other):
+        if group == 'boat:stone':
+            self.Durability -= 1

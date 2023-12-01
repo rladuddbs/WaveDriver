@@ -41,7 +41,6 @@ def handle_events():
             current_my = my
             mx, my = event.x, monitor_height - 1 - event.y
             boat.GetMousePos(mx, my)
-            print(boat.click)
             if my - current_my != 0 and frame_time != 0 and my < current_my and boat.click:
                 dir = boat.dir
                 if y_speed > (my - current_my) / frame_time:
@@ -75,11 +74,10 @@ def init():
     boat = Boat()
     game_world.add_object(boat)
 
-    stone = Stone()
-    game_world.add_object(stone)
-
     cursor = load_image('paddle.png')
     mouse_frame = 0
+
+    game_world.add_collision_pair('boat:stone', boat, None)
 
 def finish():
     game_world.clear()
@@ -88,7 +86,6 @@ def finish():
 
 def update():
     global current_my, current_time, y_speed, x_speed, frame_time
-
 
     frame_time = time.time() - current_time
     current_time += frame_time
@@ -108,6 +105,9 @@ def update():
     create_stone(create_lenth)
     game_world.update()
 
+    game_world.handle_collisions()
+
+
 mx = 0
 def draw():
     global mx
@@ -119,12 +119,15 @@ def draw():
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
     update_canvas()
 
+stones = []
+
 def create_stone(lenth):
     global create_lenth
     global stone
     if abs(sea.move_lenth) > lenth:
         stone = Stone()
         game_world.add_object(stone)
+        game_world.add_collision_pair('boat:stone', None, stone)
         lenth = random.randint(200, 1600)
         sea.move_lenth = 0
         create_lenth = lenth
