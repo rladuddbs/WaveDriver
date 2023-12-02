@@ -33,7 +33,7 @@ create_lenth = random.randint(200, 2000)
 
 
 def handle_events():
-    global mx, my, running, click, x_speed, y_speed, dir, add_angle, mouse_frame, current_my, frame_time
+    global mx, my, running, click, x_speed, y_speed, dir, add_angle, mouse_frame, current_my, frame_time, paddling
 
     events = get_events()
     for event in events:
@@ -47,6 +47,7 @@ def handle_events():
                     y_speed = (my - current_my) / frame_time
                     x_speed = -400 * boat.dir
                     add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
+
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
@@ -66,6 +67,7 @@ def init():
     global sea
     global cursor
     global mouse_frame
+    global paddling
     hide_cursor()
 
     sea = Sea()
