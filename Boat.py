@@ -20,7 +20,8 @@ class Boat:
         self.V = 0
         self.angle = 0
         self.Durability = 3
-
+        self.paddling = load_wav('paddle_sound.wav')
+        self.last_frame = 0
     def draw(self):
         if self.mx >= monitor_width / 2:
             self.image.clip_composite_draw(400 * self.frame, 0, 400, 400, -self.angle, ' ', self.boat_x, self.boat_y, 200, 200)
@@ -43,15 +44,24 @@ class Boat:
         pass
 
     def update(self):
+
+
         if not self.click:
             self.frame = 0
         else:
             if self.my > monitor_height / 3 * 2:
                 self.frame = 0
+                self.last_frame = self.frame
             elif monitor_height / 3 * 2 > self.my > monitor_height / 3:
                 self.frame = 1
             elif monitor_height / 3 > self.my > 0:
                 self.frame = 2
+
+            if self.frame == 2 and self.last_frame == 0:
+                self.paddling.set_volume(60)
+                self.paddling.play()
+                self.last_frame = 2
+
 
     def GetBoatImpo(self, V, add_angle):
         self.V = V
