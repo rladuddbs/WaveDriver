@@ -121,7 +121,6 @@ def draw():
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
     update_canvas()
 
-stones = []
 
 def create_stone(lenth):
     global create_lenth
