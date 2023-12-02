@@ -1,4 +1,4 @@
-from pico2d import load_image, get_events, clear_canvas, update_canvas, load_music
+from pico2d import load_image, get_events, clear_canvas, update_canvas, load_music, load_wav
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE
 
 import game_framework
@@ -16,6 +16,7 @@ monitor_width = root.winfo_screenwidth()
 
 def init():
     global sea, image, boat, boat_x, boat_y, spd, title_img, key_guide, alpha, apear, title_pos, title_acc, title_spd
+    global click_sound
     sea = Sea()
     game_world.add_object(sea)
 
@@ -33,6 +34,8 @@ def init():
     key_guide = load_image('key_guide.png')
     alpha = 1
     apear = 0.0025
+
+    click_sound = load_wav('click.wav')
     pass
 
 
@@ -51,6 +54,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
             animation_start = True
+            click_sound.set_volume(32)
+            click_sound.play()
     pass
 
 
@@ -94,7 +99,6 @@ def draw():
     title_img.draw(monitor_width / 2, title_pos)
     key_guide.draw(monitor_width / 2, monitor_height / 2 - 250)
     update_canvas()
-    print(boat_y)
     pass
 
 def pause():
