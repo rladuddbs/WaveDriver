@@ -31,7 +31,6 @@ class Stone:
         pass
     def GetVelocity(self, V):
         self.V = V
-        print(V)
         pass
 
     def get_bb(self):
