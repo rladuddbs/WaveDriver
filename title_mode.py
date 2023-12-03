@@ -85,10 +85,6 @@ def update():
     key_guide.opacify(alpha)
 
 
-
-    pass
-
-
 def draw():
     global boat_x, boat_y, title_img, key_guide, title_pos
     clear_canvas()

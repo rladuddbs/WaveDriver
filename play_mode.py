@@ -7,6 +7,7 @@ import game_framework
 import game_world
 from boat import Boat
 from sea import Sea
+from speed_up import Arrow
 from stone import Stone
 
 
@@ -29,7 +30,8 @@ frame_time = 0.0
 current_time = time.time()
 current_my, my = 0, 0
 
-create_lenth = random.randint(200, 2000)
+create_stone_lenth = random.randint(200, 2000)
+create_arrow_lenth = random.randint(200, 2000)
 
 
 def handle_events():
@@ -102,10 +104,12 @@ def update():
         if x_speed * dir < 0:
             x_speed += 1 * dir
 
+
     game_world.GetVelocity(y_speed)
 
     boat.GetBoatImpo(x_speed, add_angle)
-    create_stone(create_lenth)
+    create_stone(create_stone_lenth)
+    create_arrow(create_arrow_lenth)
     game_world.update()
 
     game_world.handle_collisions()
@@ -124,15 +128,26 @@ def draw():
 
 
 def create_stone(lenth):
-    global create_lenth
+    global create_stone_lenth
     global stone
-    if abs(sea.move_lenth) > lenth:
+    if abs(sea.move_stone_lenth) > lenth:
         stone = Stone()
         game_world.add_object(stone)
         game_world.add_collision_pair('boat:stone', None, stone)
         lenth = random.randint(200, 1600)
-        sea.move_lenth = 0
-        create_lenth = lenth
+        sea.move_stone_lenth = 0
+        create_stone_lenth = lenth
+
+def create_arrow(lenth):
+    global create_arrow_lenth
+    global arrow
+    if abs(sea.move_arrow_lenth) > lenth:
+        arrow = Arrow()
+        game_world.add_object(arrow)
+        game_world.add_collision_pair('boat:arrow', None, arrow)
+        lenth = random.randint(200, 1600)
+        sea.move_arrow_lenth = 0
+        create_arrow_lenth = lenth
 
 def pause():
     pass
