@@ -1,5 +1,8 @@
+import time
+
 from pico2d import load_image, load_music
 from tkinter import *
+
 
 root = Tk()
 
@@ -31,8 +34,8 @@ class Sea:
         if self.img1_y <= 0: self.img1_y = monitor_height
         if self.img2_y <= 0: self.img2_y = monitor_height
         self.move_lenth += self.V / 10000
-        pass
 
     def GetVelocity(self, V):
         self.V = V
         pass
+

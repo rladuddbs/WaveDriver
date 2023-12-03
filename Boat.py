@@ -2,6 +2,7 @@ from pico2d import *
 from tkinter import *
 import time
 
+import play_mode
 
 root = Tk()
 
@@ -11,6 +12,7 @@ monitor_width = root.winfo_screenwidth()
 
 
 class Boat:
+
     def __init__(self):
         self.image = load_image('boat_animation.png')
         self.frame = 0
@@ -25,8 +27,8 @@ class Boat:
         self.paddling = load_wav('paddle_sound.wav')
         self.last_frame = 0
         self.broken_sound = load_wav('wounded .wav')
-        self.alpha = 1
         self.invincibility = False
+        self.alpha = 1
         self.frame_time = 0
         self.alpha_interval = 0.5  # 알파값 변경 간격
         self.alpha_duration = 2.0  # 알파값 유지 시간
@@ -86,7 +88,6 @@ class Boat:
                     self.alpha = 0.5
 
         self.image.opacify(self.alpha)
-        print(self.frame_time)
 
 
     def GetBoatImpo(self, V, add_angle):
@@ -111,6 +112,6 @@ class Boat:
             self.broken_sound.set_volume(40)
             self.broken_sound.play()
             self.invincibility = True
-            self.last_time = time.time()  # 충돌 시간 갱신
-            self.frame_time = 0  # frame_time 초기화
-
+            self.last_time = time.time()
+            self.frame_time = 0
+            play_mode.y_speed = play_mode.y_speed / 10

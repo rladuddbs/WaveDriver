@@ -103,6 +103,7 @@ def update():
             x_speed += 1 * dir
 
     game_world.GetVelocity(y_speed)
+
     boat.GetBoatImpo(x_speed, add_angle)
     create_stone(create_lenth)
     game_world.update()
