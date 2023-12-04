@@ -5,6 +5,7 @@ from tkinter import *
 import time
 
 import game_world
+import play_mode
 import sea
 
 root = Tk()
@@ -21,14 +22,18 @@ class Arrow:
         self.V = 0
         self.start_time = time.time()
         self.frame = 1
+        self.last_time = time.time()
 
     def draw(self):
-        self.image.clip_draw(self.frame * int(250 / 3), 0, int(250 / 3), 100, self.x, self.y, 100, 250)
+        self.image.clip_draw(self.frame * int(250 / 3), 0, int(250 / 3), 100, self.x, self.y, 100, int(250 / 3))
         draw_rectangle(*self.get_bb())
 
     def update(self):
         self.y += self.V / 10000
-        self.frame = (self.frame + 1) % 3
+        self.delete()
+        if time.time() - self.last_time > 0.5:
+            self.frame = (self.frame + 1) % 3
+            self.last_time = time.time()
 
     def GetVelocity(self, V):
         self.V = V
@@ -38,7 +43,8 @@ class Arrow:
         return self.x - 35, self.y - 30, self.x + 35, self.y + 30
 
     def handle_collision(self, group, other):
-        pass
+        if group == 'boat:arrow':
+            game_world.remove_object(self)
 
     def delete(self):
         if self.y < -100:

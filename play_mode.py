@@ -82,6 +82,7 @@ def init():
     mouse_frame = 0
 
     game_world.add_collision_pair('boat:stone', boat, None)
+    game_world.add_collision_pair('boat:arrow', boat, None)
 
 def finish():
     game_world.clear()
@@ -95,7 +96,7 @@ def update():
     current_time += frame_time
 
     if y_speed < 0: y_speed += 10
-    if y_speed < -10000: y_speed = -10000
+    if y_speed < -10000 and not boat.invincibility: y_speed = -10000
 
     if dir == 1:
         if x_speed < 0:
@@ -138,6 +139,7 @@ def create_stone(lenth):
         sea.move_stone_lenth = 0
         create_stone_lenth = lenth
 
+
 def create_arrow(lenth):
     global create_arrow_lenth
     global arrow
@@ -148,6 +150,7 @@ def create_arrow(lenth):
         lenth = random.randint(200, 1600)
         sea.move_arrow_lenth = 0
         create_arrow_lenth = lenth
+
 
 def pause():
     pass

@@ -114,4 +114,13 @@ class Boat:
             self.invincibility = True
             self.last_time = time.time()
             self.frame_time = 0
-            play_mode.y_speed = play_mode.y_speed / 10
+            play_mode.y_speed = play_mode.y_speed / 2
+
+        if group == 'boat:arrow':
+            self.Durability -= 1
+            self.broken_sound.set_volume(40)
+            self.broken_sound.play()
+            self.invincibility = True
+            self.last_time = time.time()
+            self.frame_time = 0
+            play_mode.y_speed = play_mode.y_speed * 2
