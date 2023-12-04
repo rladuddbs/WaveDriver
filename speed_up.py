@@ -20,7 +20,6 @@ class Arrow:
             Arrow.image = load_image('arrow.png')
         self.x, self.y = random.randint(600, monitor_width - 500), monitor_height + 200
         self.V = 0
-        self.start_time = time.time()
         self.frame = 1
         self.last_time = time.time()
 
