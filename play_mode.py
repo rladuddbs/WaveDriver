@@ -74,7 +74,6 @@ def init():
     global cursor
     global mouse_frame
     global paddling
-    hide_cursor()
 
     sea = Sea()
     game_world.add_object(sea)

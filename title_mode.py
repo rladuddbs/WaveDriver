@@ -1,5 +1,6 @@
 from pico2d import load_image, get_events, clear_canvas, update_canvas, load_music, load_wav
-from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE
+from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, \
+    SDL_MOUSEBUTTONUP, SDL_MOUSEMOTION
 
 import game_framework
 import game_world
@@ -17,6 +18,9 @@ monitor_width = root.winfo_screenwidth()
 def init():
     global sea, image, boat, boat_x, boat_y, spd, title_img, key_guide, alpha, apear, title_pos, title_acc, title_spd
     global click_sound
+    global cursor
+    global mouse_frame
+
     sea = Sea()
     game_world.add_object(sea)
 
@@ -37,14 +41,18 @@ def init():
 
     click_sound = load_wav('click.wav')
 
+    cursor = load_image('paddle.png')
+    mouse_frame = 0
 
 def finish():
     pass
 
 animation_start = False
 
+mx = 0
+my = 0
 def handle_events():
-    global animation_start
+    global animation_start, mouse_frame, mx, my
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -55,7 +63,18 @@ def handle_events():
             animation_start = True
             click_sound.set_volume(32)
             click_sound.play()
+
+        if event.type == SDL_MOUSEMOTION:
+            mx, my = event.x, monitor_height - 1 - event.y
+
+        if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
+            mouse_frame = 1
+
+        if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
+            frame = 0
+            mouse_frame = 0
     pass
+
 
 
 def update():
@@ -85,7 +104,7 @@ def update():
 
 
 def draw():
-    global boat_x, boat_y, title_img, key_guide, title_pos
+    global boat_x, boat_y, title_img, key_guide, title_pos, mx, my, mouse_frame
     clear_canvas()
     sea.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2, monitor_height / 2, monitor_width, monitor_height)
 
@@ -93,6 +112,12 @@ def draw():
 
     title_img.draw(monitor_width / 2, title_pos)
     key_guide.draw(monitor_width / 2, monitor_height / 2 - 250)
+
+    if mx >= monitor_width / 2:
+        cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
+    else:
+        cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
+
     update_canvas()
     pass
 
