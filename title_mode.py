@@ -36,7 +36,6 @@ def init():
     apear = 0.0025
 
     click_sound = load_wav('click.wav')
-    pass
 
 
 def finish():
@@ -99,7 +98,6 @@ def draw():
 
 def pause():
     pass
-
 
 def resume():
     pass
