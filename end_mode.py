@@ -1,10 +1,11 @@
-from pico2d import load_image, get_events, clear_canvas, update_canvas, load_music, load_wav, load_font
+from pico2d import load_image, get_events, clear_canvas, update_canvas, load_music, load_wav, load_font, draw_rectangle
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE, SDL_MOUSEMOTION, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT, \
     SDL_MOUSEBUTTONUP
 
 import game_framework
 import game_world
 import play_mode
+import title_mode
 from sea import Sea
 
 from tkinter import *
@@ -50,12 +51,19 @@ def handle_events():
             click_sound.set_volume(32)
             click_sound.play()
 
-
         if event.type == SDL_MOUSEMOTION:
             mx, my = event.x, monitor_height - 1 - event.y
 
         if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             mouse_frame = 1
+            if monitor_width / 2 + 350 - 100 < mx < monitor_width / 2 + 350 + 100 and monitor_height / 2 - 250 - 50 < my < monitor_height / 2 - 250 + 50:
+                game_framework.quit()
+
+            if monitor_width / 2 - 350 - 100 < mx < monitor_width / 2 - 350 + 100 and monitor_height / 2 - 250 - 50 < my < monitor_height / 2 - 250 + 50:
+                title_mode.boat_y = -100
+                title_mode.animation_start = False
+                game_framework.change_mode(title_mode)
+
 
         if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
             frame = 0
@@ -80,6 +88,8 @@ def draw():
     else:
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
 
+    draw_rectangle(monitor_width / 2 + 350 - 100, monitor_height / 2 - 250 - 50, monitor_width / 2 + 350 + 100, monitor_height / 2 - 250 + 50)
+    draw_rectangle(monitor_width / 2 - 350 - 100, monitor_height / 2 - 250 - 50, monitor_width / 2 - 350 + 100, monitor_height / 2 - 250 + 50)
     update_canvas()
     pass
 

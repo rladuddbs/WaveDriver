@@ -71,7 +71,6 @@ def handle_events():
             mouse_frame = 1
 
         if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
-            frame = 0
             mouse_frame = 0
     pass
 
