@@ -117,7 +117,6 @@ class Boat:
             play_mode.y_speed = play_mode.y_speed / 2
 
         if group == 'boat:arrow':
-            self.Durability -= 1
             self.broken_sound.set_volume(40)
             self.broken_sound.play()
             self.invincibility = True
