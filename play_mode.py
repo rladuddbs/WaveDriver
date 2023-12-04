@@ -3,6 +3,8 @@ import time
 from tkinter import Tk
 
 from pico2d import *
+
+import end_mode
 import game_framework
 import game_world
 from boat import Boat
@@ -114,6 +116,7 @@ def update():
     game_world.update()
 
     game_world.handle_collisions()
+    end_game()
 
 
 mx = 0
@@ -158,3 +161,7 @@ def pause():
 
 def resume():
     pass
+
+def end_game():
+    if boat.Durability == 0:
+        game_framework.change_mode(end_mode)
