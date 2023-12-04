@@ -1,7 +1,7 @@
 from pico2d import *
 import end_mode as start_mode
-# import play_mode as start_mode
-# import title_mode as start_mode
+import play_mode as start_mode
+import title_mode as start_mode
 
 import game_framework
 from tkinter import Tk
