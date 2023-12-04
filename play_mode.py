@@ -8,6 +8,7 @@ import end_mode
 import game_framework
 import game_world
 from boat import Boat
+from heart import Heart
 from sea import Sea
 from speed_up import Arrow
 from stone import Stone
@@ -65,6 +66,7 @@ def handle_events():
             frame = 0
             mouse_frame = 0
 
+
 def init():
     global boat
     global stone
@@ -79,6 +81,9 @@ def init():
 
     boat = Boat()
     game_world.add_object(boat)
+
+    heart = [Heart(i) for i in range(3)]
+    game_world.add_objects(heart)
 
     cursor = load_image('paddle.png')
     mouse_frame = 0
