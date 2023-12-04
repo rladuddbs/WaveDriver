@@ -26,7 +26,8 @@ class Boat:
         self.Durability = 3
         self.paddling = load_wav('paddle_sound.wav')
         self.last_frame = 0
-        self.broken_sound = load_wav('wounded .wav')
+        self.broken_sound = load_wav('wounded.wav')
+        self.speed_up_sound = load_wav('throw.wav')
         self.invincibility = False
         self.alpha = 1
         self.frame_time = 0
@@ -117,8 +118,8 @@ class Boat:
             play_mode.y_speed = play_mode.y_speed / 2
 
         if group == 'boat:arrow':
-            self.broken_sound.set_volume(40)
-            self.broken_sound.play()
+            self.speed_up_sound.set_volume(40)
+            self.speed_up_sound.play()
             self.invincibility = True
             self.last_time = time.time()
             self.frame_time = 0
