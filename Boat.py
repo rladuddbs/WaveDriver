@@ -123,3 +123,4 @@ class Boat:
             self.last_time = time.time()
             self.frame_time = 0
             play_mode.y_speed = play_mode.y_speed * 2
+
