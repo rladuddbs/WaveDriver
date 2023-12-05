@@ -108,20 +108,21 @@ class Boat:
         return self.boat_x - 30, self.boat_y - 70, self.boat_x + 30, self.boat_y + 75
 
     def handle_collision(self, group, other):
-        if group == 'boat:stone':
-            self.Durability -= 1
-            self.broken_sound.set_volume(40)
-            self.broken_sound.play()
-            self.invincibility = True
-            self.last_time = time.time()
-            self.frame_time = 0
-            play_mode.y_speed = play_mode.y_speed / 2
+        if self.invincibility == False:
+            if group == 'boat:stone':
+                self.Durability -= 1
+                self.broken_sound.set_volume(40)
+                self.broken_sound.play()
+                self.invincibility = True
+                self.last_time = time.time()
+                self.frame_time = 0
+                play_mode.y_speed = play_mode.y_speed / 1.5
 
-        if group == 'boat:arrow':
-            self.speed_up_sound.set_volume(40)
-            self.speed_up_sound.play()
-            self.invincibility = True
-            self.last_time = time.time()
-            self.frame_time = 0
-            play_mode.y_speed = play_mode.y_speed * 2
+            if group == 'boat:arrow':
+                self.speed_up_sound.set_volume(40)
+                self.speed_up_sound.play()
+                self.invincibility = True
+                self.last_time = time.time()
+                self.frame_time = 0
+                play_mode.y_speed = play_mode.y_speed * 3
 
