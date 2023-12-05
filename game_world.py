@@ -42,8 +42,11 @@ def remove_object(o):
 
 
 def clear():
-    for layer in objects:
-        layer.clear()
+    for o in objects:
+        o.clear()
+        remove_collision_object(o)
+
+
 
 
 # fill here
