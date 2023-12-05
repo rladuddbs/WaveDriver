@@ -9,11 +9,11 @@ root = Tk()
 monitor_height = root.winfo_screenheight()
 monitor_width = root.winfo_screenwidth()
 
-
-PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+# 보트 가로 1.8M, 보트 세로 4.35M
+PIXEL_PER_METER = (100 / 3)  # 100 pixel 3 M
 MOVE_SPEED_KMPH = 20.0  # Km / Hour
-MOVE_SPEED_MPM = (MOVE_SPEED_KMPH * 1000.0 / 60.0)
-MOVE_SPEED_MPS = (MOVE_SPEED_MPM / 60.0)
+MOVE_SPEED_MPM = (MOVE_SPEED_KMPH * 1000.0 / 60.0) # m / min
+MOVE_SPEED_MPS = (MOVE_SPEED_MPM / 60.0)  # m / s
 MOVE_SPEED_PPS = (MOVE_SPEED_MPS * PIXEL_PER_METER)
 
 
