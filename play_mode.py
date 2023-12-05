@@ -31,13 +31,9 @@ current_time = time.time()
 current_my, my = 0, 0
 
 create_stone_lenth = random.randint(200, 2000)
-create_arrow_lenth = random.randint(200, 2000)
+create_arrow_lenth = random.randint(3000, 4000)
 
 PIXEL_PER_METER = (100 / 3)  # 100 pixel 3 M
-MOVE_SPEED_KMPH = 2.0  # Km / Hour
-MOVE_SPEED_MPM = (MOVE_SPEED_KMPH * 1000.0 / 60.0)  # m / min
-MOVE_SPEED_MPS = (MOVE_SPEED_MPM / 60.0)  # m / s
-MOVE_SPEED_PPS = (MOVE_SPEED_MPS * PIXEL_PER_METER)
 
 
 def handle_events():
@@ -51,14 +47,15 @@ def handle_events():
             boat.GetMousePos(mx, my)
             if my - current_my != 0 and frame_time != 0 and my < current_my and boat.click:
                 dir = boat.dir
+
                 if y_speed > (my - current_my) / frame_time:
                     if not boat.invincibility:
-                        y_speed = MOVE_SPEED_PPS * (my - current_my) / (frame_time * 10)
+                        moving_spd = (my - current_my) / 10
+                        y_speed = (((moving_spd * 1000.0 / 60.0) / 60.0) * PIXEL_PER_METER) / frame_time  # m / s
+                        print(y_speed)
 
-                    x_speed = MOVE_SPEED_PPS * -400 * boat.dir / 10
+                    x_speed = 20 * -400 * boat.dir / 10
                     add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
-
-
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
 
@@ -69,7 +66,6 @@ def handle_events():
         if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(False, mx, my)
             mouse_frame = 0
-
 
 def init():
     global boat
@@ -111,7 +107,7 @@ def update():
     current_time += frame_time
 
     if y_speed < 0: y_speed += 10
-    if y_speed < -10000 and not boat.invincibility: y_speed = -10000
+    if y_speed < -13000 and not boat.invincibility: y_speed = -13000
 
     if dir == 1:
         if x_speed < 0:
@@ -138,12 +134,13 @@ def draw():
     global mx, font
     clear_canvas()
     game_world.render()
+
+    font.draw(monitor_width / 2, monitor_height / 2 + 400, f'score : {int(sea.move_lenth)} M', (0, 0, 0))
+
     if mx >= monitor_width / 2:
         cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
     else:
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
-
-    font.draw(monitor_width / 2, monitor_height / 2 + 400, f'score : {int(sea.move_lenth)} M', (0, 0, 0))
 
     update_canvas()
 
@@ -155,7 +152,7 @@ def create_stone(lenth):
         stone = Stone()
         game_world.add_object(stone)
         game_world.add_collision_pair('boat:stone', None, stone)
-        lenth = random.randint(1.00, stone_create_cycle)
+        lenth = random.randint(100, stone_create_cycle)
 
         if stone_create_cycle > 400:
             stone_create_cycle -= 50
