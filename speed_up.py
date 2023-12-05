@@ -25,7 +25,7 @@ class Arrow:
 
     def draw(self):
         self.image.clip_draw(self.frame * int(315 / 3), 0, int(315 / 3), 131, self.x, self.y, 100, int(250 / 3))
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def update(self):
         self.y += self.V / 10000

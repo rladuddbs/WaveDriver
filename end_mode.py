@@ -88,8 +88,8 @@ def draw():
     else:
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
 
-    draw_rectangle(monitor_width / 2 + 350 - 100, monitor_height / 2 - 250 - 50, monitor_width / 2 + 350 + 100, monitor_height / 2 - 250 + 50)
-    draw_rectangle(monitor_width / 2 - 350 - 100, monitor_height / 2 - 250 - 50, monitor_width / 2 - 350 + 100, monitor_height / 2 - 250 + 50)
+    # draw_rectangle(monitor_width / 2 + 350 - 100, monitor_height / 2 - 250 - 50, monitor_width / 2 + 350 + 100, monitor_height / 2 - 250 + 50)
+    # draw_rectangle(monitor_width / 2 - 350 - 100, monitor_height / 2 - 250 - 50, monitor_width / 2 - 350 + 100, monitor_height / 2 - 250 + 50)
     update_canvas()
     pass
 
