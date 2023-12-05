@@ -46,10 +46,6 @@ def handle_events():
             close_sound.set_volume(32)
             close_sound.play()
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
-            animation_start = True
-            click_sound.set_volume(32)
-            click_sound.play()
 
         if event.type == SDL_MOUSEMOTION:
             mx, my = event.x, monitor_height - 1 - event.y
@@ -57,11 +53,15 @@ def handle_events():
         if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             mouse_frame = 1
             if monitor_width / 2 + 350 - 100 < mx < monitor_width / 2 + 350 + 100 and monitor_height / 2 - 250 - 50 < my < monitor_height / 2 - 250 + 50:
+                close_sound.set_volume(32)
+                close_sound.play()
                 game_framework.quit()
 
             if monitor_width / 2 - 350 - 100 < mx < monitor_width / 2 - 350 + 100 and monitor_height / 2 - 250 - 50 < my < monitor_height / 2 - 250 + 50:
                 title_mode.boat_y = -100
                 title_mode.animation_start = False
+                click_sound.set_volume(32)
+                click_sound.play()
                 game_framework.change_mode(title_mode)
 
 
