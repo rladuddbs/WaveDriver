@@ -24,7 +24,7 @@ class Arrow:
         self.last_time = time.time()
 
     def draw(self):
-        self.image.clip_draw(self.frame * int(250 / 3), 0, int(250 / 3), 100, self.x, self.y, 100, int(250 / 3))
+        self.image.clip_draw(self.frame * int(315 / 3), 0, int(315 / 3), 131, self.x, self.y, 100, int(250 / 3))
         draw_rectangle(*self.get_bb())
 
     def update(self):
@@ -39,7 +39,7 @@ class Arrow:
         pass
 
     def get_bb(self):
-        return self.x - 35, self.y - 30, self.x + 35, self.y + 30
+        return self.x - 40, self.y - 30, self.x + 40, self.y + 30
 
     def handle_collision(self, group, other):
         if group == 'boat:arrow':
