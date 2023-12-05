@@ -13,13 +13,10 @@ from sea import Sea
 from speed_up import Arrow
 from stone import Stone
 
-
-# Game object class here
 root = Tk()
 
 monitor_height = root.winfo_screenheight()
 monitor_width = root.winfo_screenwidth()
-
 
 global mx, my, click
 x_speed = 0
@@ -36,6 +33,12 @@ current_my, my = 0, 0
 create_stone_lenth = random.randint(200, 2000)
 create_arrow_lenth = random.randint(200, 2000)
 
+PIXEL_PER_METER = (100 / 3)  # 100 pixel 3 M
+MOVE_SPEED_KMPH = 2.0  # Km / Hour
+MOVE_SPEED_MPM = (MOVE_SPEED_KMPH * 1000.0 / 60.0)  # m / min
+MOVE_SPEED_MPS = (MOVE_SPEED_MPM / 60.0)  # m / s
+MOVE_SPEED_PPS = (MOVE_SPEED_MPS * PIXEL_PER_METER)
+
 
 def handle_events():
     global mx, my, running, click, x_speed, y_speed, dir, add_angle, mouse_frame, current_my, frame_time, paddling
@@ -49,10 +52,14 @@ def handle_events():
             if my - current_my != 0 and frame_time != 0 and my < current_my and boat.click:
                 dir = boat.dir
                 if y_speed > (my - current_my) / frame_time:
-                    y_speed = (my - current_my) / frame_time
-                    x_speed = -400 * boat.dir
-                    add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
+                    if not boat.invincibility:
+                        y_speed = MOVE_SPEED_PPS * (my - current_my) / (frame_time * 10)
 
+                    x_speed = MOVE_SPEED_PPS * -400 * boat.dir / 10
+                    add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
+                    print(x_speed)
+                else:
+                    print('x_speed')
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
@@ -63,17 +70,16 @@ def handle_events():
 
         if event.type == SDL_MOUSEBUTTONUP and event.button == SDL_BUTTON_LEFT:
             boat.GetClickImpo(False, mx, my)
-            frame = 0
             mouse_frame = 0
 
 
 def init():
     global boat
-    global stone
+    global stone, stone_create_cycle
     global sea
     global cursor
     global mouse_frame
-    global paddling
+    global paddling, font
 
     sea = Sea()
     game_world.add_object(sea)
@@ -87,8 +93,13 @@ def init():
     cursor = load_image('paddle.png')
     mouse_frame = 0
 
+    stone_create_cycle = 1600
+
     game_world.add_collision_pair('boat:stone', boat, None)
     game_world.add_collision_pair('boat:arrow', boat, None)
+
+    font = load_font('esamanru Bold.ttf', 80)
+
 
 def finish():
     game_world.clear()
@@ -111,7 +122,6 @@ def update():
         if x_speed * dir < 0:
             x_speed += 1 * dir
 
-
     game_world.GetVelocity(y_speed)
 
     boat.GetBoatImpo(x_speed, add_angle)
@@ -124,25 +134,34 @@ def update():
 
 
 mx = 0
+
+
 def draw():
-    global mx
+    global mx, font
     clear_canvas()
     game_world.render()
     if mx >= monitor_width / 2:
         cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
     else:
         cursor.clip_composite_draw(mouse_frame * 100, 0, 100, 100, 0, 'h', mx, my, 100, 100)
+
+    font.draw(monitor_width / 2, monitor_height / 2 + 400, f'score : {int(sea.move_lenth)} M', (0, 0, 0))
+
     update_canvas()
 
 
 def create_stone(lenth):
     global create_stone_lenth
-    global stone
+    global stone, stone_create_cycle
     if abs(sea.move_stone_lenth) > lenth:
         stone = Stone()
         game_world.add_object(stone)
         game_world.add_collision_pair('boat:stone', None, stone)
-        lenth = random.randint(200, 1600)
+        lenth = random.randint(1.00, stone_create_cycle)
+
+        if stone_create_cycle > 400:
+            stone_create_cycle -= 50
+
         sea.move_stone_lenth = 0
         create_stone_lenth = lenth
 
@@ -154,7 +173,7 @@ def create_arrow(lenth):
         arrow = Arrow()
         game_world.add_object(arrow)
         game_world.add_collision_pair('boat:arrow', None, arrow)
-        lenth = random.randint(200, 1600)
+        lenth = random.randint(3000, 4000)
         sea.move_arrow_lenth = 0
         create_arrow_lenth = lenth
 
@@ -165,6 +184,7 @@ def pause():
 
 def resume():
     pass
+
 
 def end_game():
     if boat.Durability == 0:
