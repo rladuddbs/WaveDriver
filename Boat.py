@@ -42,8 +42,7 @@ class Boat:
             self.image.clip_composite_draw(400 * self.frame, 0, 400, 400, -self.angle, 'h', self.boat_x, self.boat_y, 200, 200)
             self.dir = -1
 
-        self.boat_x += self.V / 2000
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def GetClickImpo(self, click, mx, my):
         self.click = click
@@ -51,9 +50,6 @@ class Boat:
 
     def GetMousePos(self, mx, my):
         self.mx, self.my = mx, my
-
-    def move(self):
-        pass
 
     def update(self):
         if not self.click:
@@ -90,6 +86,7 @@ class Boat:
 
         self.image.opacify(self.alpha)
 
+        self.boat_x += self.V / 2000
 
     def GetBoatImpo(self, V, add_angle):
         self.V = V

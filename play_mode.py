@@ -57,9 +57,7 @@ def handle_events():
 
                     x_speed = MOVE_SPEED_PPS * -400 * boat.dir / 10
                     add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
-                    print(x_speed)
-                else:
-                    print('x_speed')
+
 
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
