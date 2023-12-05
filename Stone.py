@@ -17,7 +17,7 @@ class Stone:
     def __init__(self):
         if Stone.image == None:
             Stone.image = load_image('stone.png')
-        self.x, self.y = random.randint(400, monitor_width - 400), monitor_height + 200
+        self.x, self.y = random.randint(50, monitor_width - 50), monitor_height + 200
         self.V = 0
         self.start_time = time.time()
 
