@@ -107,7 +107,7 @@ def draw():
     clear_canvas()
     sea.image.clip_draw(0, 0, 1980, 1080, monitor_width / 2, monitor_height / 2, monitor_width, monitor_height)
 
-    boat.image.clip_draw(0, 0, 400, 400, boat_x, boat_y, 200, 200)
+    boat.image.clip_draw(0, 0, 400, 400, boat_x, boat_y, monitor_width / 10, monitor_width / 10)
 
     title_img.draw(monitor_width / 2, title_pos)
     key_guide.draw(monitor_width / 2, monitor_height / 2 - 250)

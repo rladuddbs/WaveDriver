@@ -52,7 +52,6 @@ def handle_events():
                     if not boat.invincibility:
                         moving_spd = (my - current_my) / 10
                         y_speed = (((moving_spd * 1000.0 / 60.0) / 60.0) * PIXEL_PER_METER) / frame_time  # m / s
-                        print(y_speed)
 
                     x_speed = 20 * -400 * boat.dir / 10
                     add_angle = ((my - current_my) / (frame_time * 10) * boat.dir) / 5000
@@ -135,7 +134,7 @@ def draw():
     clear_canvas()
     game_world.render()
 
-    font.draw(monitor_width / 2, monitor_height / 2 + 400, f'score : {int(sea.move_lenth)} M', (0, 0, 0))
+    font.draw(monitor_width / 2 + 200, monitor_height / 2 + 400, f'score : {int(sea.move_lenth)} M', (0, 0, 0))
 
     if mx >= monitor_width / 2:
         cursor.clip_draw(mouse_frame * 100, 0, 100, 100, mx, my)
